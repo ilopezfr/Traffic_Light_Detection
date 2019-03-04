@@ -9,3 +9,7 @@ training/fine_tuned_model
 data/
 CarND-Capstone-TrafficLightDetection/
 notebooks/TrafficLightDetection-Inference.ipynb
+notebooks/object_detection
+optimize_graph.py
+
+

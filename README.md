@@ -72,7 +72,7 @@ $ python object_detection/export_inference_graph.py \
 ## Conversion to Tensorflow v1.3
 We learned that the software stack included in Carla (Udacity's self-driving car) uses Tensorflow's version 1.3. 
 
-Unfortunately, the model that we originally trained in Colab was using using a newer version of Tensorflow. Moreover, TF Object Detection API only goes back to Tensorflow 1.4 (which can be found in one this commit: https://github.com/tensorflow/models/commit/edcd29f2dbb4b3eaed387fe17cb5270f867aec42), 
+Unfortunately, the model that we originally trained in Colab was using using a newer version of Tensorflow. Moreover, TF Object Detection API only goes back to Tensorflow 1.4 (which can be found in one this [commit](https://github.com/tensorflow/models/commit/edcd29f2dbb4b3eaed387fe17cb5270f867aec42).
 
 Luckily it appears that models converted to TF 1.4 are also compatible with TF 1.3. To convert the model we followed this procedure: 
 ```Console
@@ -109,22 +109,15 @@ To evaluate the model, we passed a set of sample images selected from both the s
 
 Overall, the model performs well although it could further be optimized. Looking at the false positives obtained, we could appreciate how the model sometimes misclassifies the color in saturated light condition (with glare and reflection). In the future, we will explore implementing Gamma Correction technique to alleviate this issue. 
 
-The images below come from the results 
+The notebook used for the evaluation can be found here: [Traffic-Light-Classifier-Evaluation](https://github.com/ThomasHenckel/CarND-Capstone/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-evaluation.ipynb) 
 
-Original           |  Results 
-:-----------------:|:------------------:
-![alt text][image1]|![alt text][image2]
-
-On average, the model decreases loss over time.
-![alt text][image5]
-
-Other results:
-
-![alt text][image6]   |![alt text][image7]
+![alt text][image2]   |![alt text][image3]
 :--------------------:|:--------------------:
-![alt text][image8]   | ![alt text][image9]
-![alt text][image10]  | ![alt text][image11]
-
+![alt text][image4]   |![alt text][image5]
+![alt text][image6]   |![alt text][image7]
+![alt text][image8]   |![alt text][image9]
+![alt text][image10]  |![alt text][image11]
+![alt text][image12]  |![alt text][image13]
 
 # Deployment
 
@@ -139,17 +132,17 @@ $ cp models/converted_to_TFv14/ssd_mobilenet/frozen_inference_graph.pb ../../ros
 
 [image1]: ./test_images/sim_r.jpg "Sim R"
 [image2]: ./test_images_result/sim_r_result.png "Sim R result"
-[image3]: ./images/um_000036-iter1.png "Iter 1"
-[image4]: ./images/um_000036-iter5.png "Iter 5"
-[image5]: ./images/loss_decrease.png "loss decrease"
-[image6]: ./images/uu_000017.png "sample 6"
-[image7]: ./images/uu_000021.png "sample 7"
-[image8]: ./images/um_000046.png "sample 8"
-[image9]: ./images/um_000063.png "sample 9"
-[image10]: ./images/umm_000002.png "sample 10"
-[image11]: ./images/umm_000061.png "sample 11"
-[image12]: ./images/fcn-8.png "FCN-8"
-
+[image3]: ./test_images_result/sim_u_result.png  "Sim U result"
+[image4]: ./test_images_result/sim_y_result.png "sample 4"
+[image5]: ./test_images_result/uda_lights_g_result.png "sample-5"
+[image6]: ./test_images_result/uda_lights_y_result.png "sample 6"
+[image7]: ./test_images_result/uda_loop_g_result.png "sample 7"
+[image8]: ./test_images_result/uda_loop_r_result.png "sample 8"
+[image9]: ./test_images_result/uda_loop_u_2_result.png "sample 9"
+[image10]: ./test_images_result/uda_loop_u_result.png  "sample 10"
+[image11]: ./test_images_result/uda_training_g_result.png "sample 11"
+[image12]: ./test_images_result/uda_training_r_result.png  "sample-12"
+[image13]: ./test_images_result/uda_training_y_result.png  "sample-13"
 
 
 ## Thanks
