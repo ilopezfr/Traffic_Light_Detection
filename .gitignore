@@ -1,15 +1,13 @@
 bin
 include
-object_detection
-training/models
-training/fine_tuned_model
+object_detection/
 *.records
 
 # Custom
 data/
-CarND-Capstone-TrafficLightDetection/
 notebooks/TrafficLightDetection-Inference.ipynb
 notebooks/object_detection
 optimize_graph.py
 
-
+# exception to the rule
+!object_detection/utils/

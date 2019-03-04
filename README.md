@@ -9,21 +9,43 @@ We used TensorFlow Object Detection API and fine-tune a pre-trained SSD MobileNe
 # Dataset
 
 For training we initially considered 4 datasets:
-1. [Carla Training](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic_light_bag_file.zip): Bag file provided by Udacity with a images from the test site.
-2. [Carla Training 2](https://drive.google.com/open?id=0B2_h37bMVw3iYkdJTlRSUlJIamM): Bag file with images of the traffic lights in the test site and different lighting conditions
-3. [Udacity Simulator](https://drive.google.com/open?id=0B2_h37bMVw3iYkdJTlRSUlJIamM): Images collected from Udacity's simulator
+1. [carla_training](https://drive.google.com/open?id=1pk7RZYcP57dxs-xmAHcdHseZ__ZtZWgB): Combination of two datasets of images collected from Carla's testing site. There's a total of 1773 images in jpg format and their corresponding bounding box annotation file in xml with labels (Green, Red, Yellow).
+2. [carla_testing](https://drive.google.com/open?id=1A_lA1zdfRVDcaht2Z3z_iLkZHs7-QbbM): Dataset of images collected from Carla's testing site, recorded during a sunny day and with some images from that car that have a lot of glare and reflection. There's a total of 329 images. 
+3. [simulator](https://drive.google.com/open?id=1-G066U5BUUNPvdinWrALX5XWcw7TioeY): Images collected from Udacity's simulator. There's a total of 511 images, in the same format as previous datasets. 
 4. [LISA Traffic Light Dataset](http://cvrr.ucsd.edu/vivachallenge/index.php/traffic-light/traffic-light-detection/)
 5. [Bosch Small Traffic Lights Dataset](https://hci.iwr.uni-heidelberg.de/node/6132) 
-6. Carla Testing: An addition Test Run bag file from the test site, recorded during a sunny day and with some images from that car that have a lot of glare and reflection. 
 
-We ended up combining the two Carla Training datasets and Udacity Simulator dataset for training, and used Carla Testing dataset for evaluation. This combined adds up to a total of 1833 images. The results overall were good enough that we didn't see necessary investing more time and computation in retraining the model with the other public datasets. 
+In the first iteration of this project, we ended up combining the three first datasets: carla_training, carla_testing, simulator. The combination of these three datasets adds up to a total of 2,613 images. We called this collection **Mixed** dataset. The results overall were good enough that, we didn't see a priority investing extra time and computation in retraining the model with the other public datasets, given the time constraints we had in delivering the first version of this project. We will consider retraining the model on these datasets on the second iteration of this project.   
 
 In order to train the model using the TensorFlow Object Detection API, the images supplied needed to be converted into [TensorFlow Record file format](https://www.tensorflow.org/guide/extend/formats). We've supplied the utility file `create_tf_record.py` that converts the annotated images into a TensorFlow Record, optionally splitting the dataset into train and validation.
 
+The code to convert the images to TensorFlow Record file format can be found in this notebook: [Traffic-Light-Detection-TFRecord.ipynb](https://github.com/ilopezfr/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-TFRecord.ipynb) 
+
+In that notebook, you can find all the steps to do the conversion. Essentially, one has to download the datasets with the images and labels, combine them together and then run the `create_tf_record.py` program: 
 ```console
-$ python create_tf_record.py --data_dir=data/simulator --labels_dir=data/simulator/labels --labels_map_path=config/labels_map.pbtxt --output_path=data/simulator/simulator.record
+$ python create_tf_record.py --data_dir=data/simulator \
+                           --labels_dir=data/simulator/labels \
+                           --labels_map_path=config/labels_map.pbtxt \
+                           --output_path=data/simulator/simulator.record
 ```
-The converted TensorFlow Record files for the training and evaluation can be downlowaded here:
+This program already splits the images into training and evaluation TF Record files. By default is 75% for training and 25% for evaluation.
+The final files structure should look like this:
+
+```Console
+mixed
+    L labels
+         L img_01.xml
+         L img_02.xml
+         L ...
+    L img_01.jpg
+    L img_02.jpg
+    L ...
+    L mixed_train.record
+    L mixed_eval.record
+
+```
+
+The converted TensorFlow Record files for the training and evaluation can also be downloaded here:
 - [mixed_train.record](https://drive.google.com/open?id=1orq0y-8GtfOWl1tBko03rSZT7b3sVfBf)
 - [mixed_eval.record](https://drive.google.com/open?id=18nLlxkdJtwfbOaFvpdLhJXrknfzwNNKw) 
 
@@ -55,7 +77,7 @@ We trained the model using Colab in a GPU for 20,000 global steps on the Mixed 
 - Anchors max scale = 0.5
 - Anchors Aspect Ratio = 0.33
 
-We've provided the notebook used in Colab for the full training: [Traffic-Light-Detection-Training.ipynb](https://github.com/ThomasHenckel/CarND-Capstone/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-Training.ipynb)
+We've provided the notebook used in Colab for the full training: [Traffic-Light-Detection-Training.ipynb](https://github.com/ilopezfr/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-Training.ipynb)
 
 ## Export the model
 
@@ -109,7 +131,7 @@ To evaluate the model, we passed a set of sample images selected from both the s
 
 Overall, the model performs well although it could further be optimized. Looking at the false positives obtained, we could appreciate how the model sometimes misclassifies the color in saturated light condition (with glare and reflection). In the future, we will explore implementing Gamma Correction technique to alleviate this issue. 
 
-The notebook used for the evaluation can be found here: [Traffic-Light-Classifier-Evaluation](https://github.com/ThomasHenckel/CarND-Capstone/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-evaluation.ipynb) 
+The notebook used for the evaluation can be found here: [Traffic-Light-Classifier-Evaluation](https://github.com/ilopezfr/Traffic_Light_Detection/notebooks/Traffic-Light-Detection-evaluation.ipynb) 
 
 ![alt text][image2]   |![alt text][image3]
 :--------------------:|:--------------------:
