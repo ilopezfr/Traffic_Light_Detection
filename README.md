@@ -52,7 +52,7 @@ The converted TensorFlow Record files for the training and evaluation can also b
 # Training 
 
 ## Model
-We used **ssd_mobilenet_v1_coco_2018_01_28**(http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz), as pre-trained model on COCO dataset. 
+We used [**ssd_mobilenet_v1_coco_2018_01_28**](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz), as pre-trained model on COCO dataset. 
 
 
 ## Configuration File
